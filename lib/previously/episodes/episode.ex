@@ -2,6 +2,7 @@ defmodule Previously.Episodes.Episode do
   use Ecto.Schema
   import Ecto.Changeset
   alias Previously.TVShows.TVShow
+  alias Previously.Users.User
 
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
@@ -13,6 +14,7 @@ defmodule Previously.Episodes.Episode do
     field :title, :string
     field :watched, :boolean
     belongs_to :tvshow, TVShow, foreign_key: :tvshow_id
+    many_to_many :users, User, join_through: "users_episodes"
 
     timestamps()
   end
