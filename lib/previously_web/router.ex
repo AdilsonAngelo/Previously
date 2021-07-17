@@ -3,10 +3,26 @@ defmodule PreviouslyWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug PreviouslyWeb.APIAuthPlug, otp_app: :previously
   end
 
-  scope "/api", PreviouslyWeb do
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: PreviouslyWeb.APIAuthErrorHandler
+  end
+
+  scope "/api", PreviouslyWeb, as: :api do
     pipe_through :api
+
+    resources "/registration", API.RegistrationController, singleton: true, only: [:create]
+    resources "/session", API.SessionController, singleton: true, only: [:create, :delete]
+    post "/session/renew", API.SessionController, :renew
+  end
+
+  scope "/api", PreviouslyWeb, as: :api do
+    pipe_through [:api, :api_protected]
+
+    #protected endpoints
+
   end
 
   # Enables LiveDashboard only for development
