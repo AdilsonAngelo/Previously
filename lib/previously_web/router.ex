@@ -24,7 +24,7 @@ defmodule PreviouslyWeb.Router do
     # authenticated endpoints
     get "/tvshows/search", API.TVShowController, :search_imdb
     resources "/tvshows", API.TVShowController, only: [:index, :show] do
-      resources "/episodes", API.EpisodeController, only: [:index]
+      resources "/episodes", API.EpisodeController, only: [:index, :show]
     end
   end
 
