@@ -7,13 +7,20 @@ defmodule Previously.TVShows do
   alias Previously.Repo
 
   alias Previously.TVShows.TVShow
+  alias Previously.Episodes.Episode
   alias Previously.IMDb.IMDbService
 
-  def list_tvshows do
-    Repo.all(TVShow)
+  def list_tvshows(user_id) do
+    user_id
+    |> query_by_user_id()
+    |> Repo.all()
   end
 
-  def get_tv_show!(id), do: Repo.get!(TVShow, id)
+  def get_tv_show!(user_id, id) do
+    user_id
+    |> query_by_user_id()
+    |> Repo.get!(id)
+  end
 
   def create_tv_show(attrs \\ %{}) do
     %TVShow{}
@@ -42,8 +49,17 @@ defmodule Previously.TVShows do
       {:ok, tvshow_attrs} ->
         {:ok, tvshow} = create_tv_show(tvshow_attrs)
         tvshow
+
       {:error, _} ->
         nil
     end
+  end
+
+  defp query_by_user_id(user_id) do
+    from tvshow in TVShow,
+      join: ep in Episode,
+      on: ep.tvshow_id == tvshow.id,
+      join: watched_eps in "users_episodes",
+      on: watched_eps.user_id == ^Ecto.UUID.dump!(user_id)
   end
 end
