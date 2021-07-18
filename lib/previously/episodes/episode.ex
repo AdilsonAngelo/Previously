@@ -12,7 +12,6 @@ defmodule Previously.Episodes.Episode do
     field :number, :integer
     field :release, :date
     field :title, :string
-    field :watched, :boolean
     belongs_to :tvshow, TVShow, foreign_key: :tvshow_id
     many_to_many :users, User, join_through: "users_episodes"
 
@@ -22,7 +21,7 @@ defmodule Previously.Episodes.Episode do
   @doc false
   def changeset(episode, attrs) do
     episode
-    |> cast(attrs, [:number, :release, :title, :imdb_id, :season, :watched, :tvshow_id])
+    |> cast(attrs, [:number, :release, :title, :imdb_id, :season, :tvshow_id])
     |> cast_assoc(:tvshow)
     |> validate_required([:number, :season, :title, :imdb_id])
     |> unique_constraint(:imdb_id)

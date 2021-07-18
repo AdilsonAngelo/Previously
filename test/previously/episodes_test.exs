@@ -9,7 +9,7 @@ defmodule Previously.EpisodesTest do
 
     @valid_tvshow_attrs %{imdb_id: "show_imdb_id", poster: "some poster", title: "some title"}
     @valid_attrs %{imdb_id: "some imdb_id", number: 42, release: ~D[2010-04-17], title: "some title", season: 1}
-    @update_attrs %{imdb_id: "some updated imdb_id", number: 43, release: ~D[2011-05-18], title: "some updated title", season: 2, watched: true}
+    @update_attrs %{imdb_id: "some updated imdb_id", number: 43, release: ~D[2011-05-18], title: "some updated title", season: 2}
     @invalid_attrs %{imdb_id: nil, number: nil, release: nil, title: nil}
 
     def tvshow_fixture() do

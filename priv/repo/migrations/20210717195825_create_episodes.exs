@@ -8,7 +8,6 @@ defmodule Previously.Repo.Migrations.CreateEpisodes do
       add :number, :integer
       add :release, :date
       add :title, :string
-      add :watched, :boolean
       add :imdb_id, :string
 
       timestamps()
