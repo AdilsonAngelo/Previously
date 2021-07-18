@@ -27,7 +27,9 @@ defmodule PreviouslyWeb.API.TVShowController do
   def search_imdb(conn, %{"q" => query} = params) do
     case IMDbService.search(query, params["page"]) do
       {:ok, response} ->
-        send_resp(conn, :ok, Jason.encode!(response))
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(:ok, Jason.encode!(response))
 
       {:error, err} ->
         send_resp(conn, 500, Jason.encode!(%{"error" => err}))

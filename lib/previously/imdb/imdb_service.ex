@@ -1,8 +1,6 @@
 defmodule Previously.IMDb.IMDbService do
   alias Previously.IMDb.IMDbHelper
-  alias Previously.Episodes.Episode
 
-  @spec search(String.t(), Integer.t()) :: any
   def search(query, page \\ 1) do
     case IMDbHelper.search(%{"s" => query, "page" => page}) do
       %{"Search" => results, "Response" => "True", "totalResults" => total} ->

@@ -1,5 +1,6 @@
 defmodule PreviouslyWeb.Router do
   use PreviouslyWeb, :router
+  use Plug.ErrorHandler
 
   pipeline :api do
     plug :accepts, ["json"]
