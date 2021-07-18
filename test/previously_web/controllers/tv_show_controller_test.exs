@@ -135,4 +135,5 @@ defmodule PreviouslyWeb.TVShowControllerTest do
   end
 
   defp fixture(:episode), do: Episodes.create_episode(@episode_attrs)
+  defp fixture(:tvshow), do: TVShows.create_tv_show(@attrs)
 end
