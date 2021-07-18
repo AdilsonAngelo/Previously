@@ -3,6 +3,7 @@ defmodule Previously.Episodes do
   The Episodes context.
   """
 
+  require Ecto.UUID
   import Ecto.Query, warn: false
   alias Previously.Repo
 
@@ -17,9 +18,10 @@ defmodule Previously.Episodes do
       [%Episode{}, ...]
 
   """
-  def list_episodes(tvshow_id) do
-    IO.inspect(tvshow_id)
-    Repo.all(from ep in Episode, where: ep.tvshow_id == ^tvshow_id)
+  def list_episodes(user_id, tvshow_id) do
+    user_id
+    |> query_by_user_id_and_tvshow_id(tvshow_id)
+    |> Repo.all()
   end
 
   @doc """
@@ -36,7 +38,11 @@ defmodule Previously.Episodes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_episode!(tvshow_id, id), do: Repo.get!(Episode, id, tvshow_id: tvshow_id)
+  def get_episode!(user_id, tvshow_id, id) do
+    user_id
+    |> query_by_user_id_and_tvshow_id(tvshow_id)
+    |> Repo.get!(id)
+  end
 
   @doc """
   Creates a episode.
@@ -101,5 +107,12 @@ defmodule Previously.Episodes do
   """
   def change_episode(%Episode{} = episode, attrs \\ %{}) do
     Episode.changeset(episode, attrs)
+  end
+
+  defp query_by_user_id_and_tvshow_id(user_id, tvshow_id) do
+    from ep in Episode,
+      where: ep.tvshow_id == ^tvshow_id,
+      join: watched_eps in "users_episodes",
+      on: watched_eps.user_id == ^Ecto.UUID.dump!(user_id)
   end
 end
