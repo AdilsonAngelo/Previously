@@ -22,8 +22,8 @@ defmodule PreviouslyWeb.Router do
     pipe_through [:api, :api_protected]
 
     # authenticated endpoints
-    resources "/tvshows", API.TVShowController, only: [:index, :show]
     get "/tvshows/search", API.TVShowController, :search_imdb
+    resources "/tvshows", API.TVShowController, only: [:index, :show]
   end
 
   # Enables LiveDashboard only for development
