@@ -14,6 +14,7 @@ defmodule PreviouslyWeb.API.EpisodeView do
     %{season: episode.season,
       number: episode.number,
       release: episode.release,
-      title: episode.title}
+      title: episode.title,
+      tvshow_id: episode.tvshow_id}
   end
 end

@@ -25,6 +25,8 @@ defmodule Previously.Episodes do
 
   def get_by_imdb_id(imdb_id), do: Repo.get_by(Episode, imdb_id: imdb_id)
 
+  def get_by_imdb_id!(imdb_id), do: Repo.get_by!(Episode, imdb_id: imdb_id)
+
   def mark_episode(user, ep_code) do
     try_episode =
       with nil <- get_by_imdb_id(ep_code) do
@@ -44,7 +46,16 @@ defmodule Previously.Episodes do
     end
   end
 
-  def unmark_episode(_user_id, _episode) do
+  def unmark_episode(user_id, ep_code) do
+    with %Episode{} = episode <- get_by_imdb_id!(ep_code) do
+      query =
+        from ue in "users_episodes",
+          where:
+            ue.user_id == ^Ecto.UUID.dump!(user_id) and
+              ue.episode_id == ^Ecto.UUID.dump!(episode.id)
+
+      Repo.delete_all(query)
+    end
   end
 
   def fetch_and_save(ep_code) do
