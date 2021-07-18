@@ -17,8 +17,9 @@ defmodule Previously.Episodes do
       [%Episode{}, ...]
 
   """
-  def list_episodes do
-    Repo.all(Episode)
+  def list_episodes(tvshow_id) do
+    IO.inspect(tvshow_id)
+    Repo.all(from ep in Episode, where: ep.tvshow_id == ^tvshow_id)
   end
 
   @doc """
@@ -35,7 +36,7 @@ defmodule Previously.Episodes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_episode!(id), do: Repo.get!(Episode, id)
+  def get_episode!(tvshow_id, id), do: Repo.get!(Episode, id, tvshow_id: tvshow_id)
 
   @doc """
   Creates a episode.
