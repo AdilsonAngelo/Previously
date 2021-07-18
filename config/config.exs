@@ -18,6 +18,8 @@ config :previously, PreviouslyWeb.Endpoint,
   pubsub_server: Previously.PubSub,
   live_view: [signing_salt: "LEGf6xZm"]
 
+config :previously, :omdb, api_key: System.get_env("OMDB_API_KEY")
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
