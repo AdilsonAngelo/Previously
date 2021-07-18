@@ -23,6 +23,7 @@ defmodule Previously.Episodes.Episode do
     episode
     |> cast(attrs, [:number, :release, :title, :imdb_id, :season, :tvshow_id])
     |> cast_assoc(:tvshow)
+    |> cast_assoc(:users)
     |> validate_required([:number, :season, :title, :imdb_id])
     |> unique_constraint(:imdb_id)
   end
