@@ -28,20 +28,6 @@ defmodule Previously.TVShows do
     |> Repo.insert()
   end
 
-  def update_tv_show(%TVShow{} = tv_show, attrs) do
-    tv_show
-    |> TVShow.changeset(attrs)
-    |> Repo.update()
-  end
-
-  def delete_tv_show(%TVShow{} = tv_show) do
-    Repo.delete(tv_show)
-  end
-
-  def change_tv_show(%TVShow{} = tv_show, attrs \\ %{}) do
-    TVShow.changeset(tv_show, attrs)
-  end
-
   def get_by_imdb_id(imdb_id), do: Repo.get_by(TVShow, imdb_id: imdb_id)
 
   def fetch_and_save(imdb_id) do

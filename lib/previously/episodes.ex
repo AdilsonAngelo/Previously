@@ -84,14 +84,6 @@ defmodule Previously.Episodes do
     |> Repo.insert()
   end
 
-  def delete_episode(%Episode{} = episode) do
-    Repo.delete(episode)
-  end
-
-  def change_episode(%Episode{} = episode, attrs \\ %{}) do
-    Episode.changeset(episode, attrs)
-  end
-
   defp query_by_user_id_and_tvshow_id(user_id, tvshow_id) do
     from ep in Episode,
       where: ep.tvshow_id == ^tvshow_id,
