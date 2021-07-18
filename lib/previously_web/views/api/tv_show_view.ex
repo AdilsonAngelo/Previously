@@ -1,13 +1,13 @@
-defmodule PreviouslyWeb.TVShowView do
+defmodule PreviouslyWeb.API.TVShowView do
   use PreviouslyWeb, :view
-  alias PreviouslyWeb.TVShowView
+  alias PreviouslyWeb.API.TVShowView
 
   def render("index.json", %{tvshows: tvshows}) do
-    %{data: render_many(tvshows, TVShowView, "tv_show.json")}
+    render_many(tvshows, TVShowView, "tv_show.json")
   end
 
   def render("show.json", %{tv_show: tv_show}) do
-    %{data: render_one(tv_show, TVShowView, "tv_show.json")}
+    render_one(tv_show, TVShowView, "tv_show.json")
   end
 
   def render("tv_show.json", %{tv_show: tv_show}) do
