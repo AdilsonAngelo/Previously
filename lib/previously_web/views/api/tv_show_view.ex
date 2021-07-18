@@ -13,6 +13,7 @@ defmodule PreviouslyWeb.API.TVShowView do
   def render("tv_show.json", %{tv_show: tv_show}) do
     %{poster: tv_show.poster,
       title: tv_show.title,
-      imdb_id: tv_show.imdb_id}
+      imdb_id: tv_show.imdb_id,
+      id: tv_show.id}
   end
 end

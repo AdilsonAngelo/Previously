@@ -15,6 +15,7 @@ defmodule PreviouslyWeb.API.EpisodeView do
       number: episode.number,
       release: episode.release,
       title: episode.title,
-      tvshow_id: episode.tvshow_id}
+      tvshow_id: episode.tvshow_id,
+      id: episode.id}
   end
 end
