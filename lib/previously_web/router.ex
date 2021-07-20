@@ -24,8 +24,12 @@ defmodule PreviouslyWeb.Router do
 
     # authenticated endpoints
     get "/tvshows/search", API.TVShowController, :search_imdb
+    get "/tvshows/episodes/list-imdb", API.TVShowController, :get_tvshow_episodes
+    get "/tvshows/episodes/marked", API.EpisodeController, :get_marked_by_tvshow_code
     post "/tvshows/episodes/mark", API.EpisodeController, :mark_episode
+    post "/tvshows/episodes/unmark-all", API.EpisodeController, :unmark_all_episodes
     post "/tvshows/episodes/unmark", API.EpisodeController, :unmark_episode
+    get "/tvshows/episodes/last-seen", API.EpisodeController, :get_last_seen_episodes
     resources "/tvshows", API.TVShowController, only: [:index, :show] do
       resources "/episodes", API.EpisodeController, only: [:index, :show]
     end

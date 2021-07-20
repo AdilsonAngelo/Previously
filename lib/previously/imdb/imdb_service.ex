@@ -5,7 +5,19 @@ defmodule Previously.IMDb.IMDbService do
     case IMDbHelper.search(%{"s" => query, "page" => page}) do
       %{"Search" => results, "Response" => "True", "totalResults" => total} ->
         total_num = String.to_integer(total)
-        page = if page === nil, do: 1, else: page
+        page = if page === nil, do: 1, else: String.to_integer(page)
+
+        results =
+          results
+          |> Enum.map(fn res ->
+            res
+            |> Enum.map(fn {k, v} ->
+              k = if (String.downcase(k) == "imdbid"), do: "imdb_id", else: k
+              {String.downcase(k), v}
+            end)
+            |> Enum.into(%{})
+          end)
+
         {:ok, %{"results" => results, "total" => total_num, "page" => page}}
 
       %{"Error" => err, "Response" => "False"} ->
@@ -56,6 +68,28 @@ defmodule Previously.IMDb.IMDbService do
 
       _ ->
         {:error, nil}
+    end
+  end
+
+  def get_episodes(tvshow_code, season \\ 1) do
+    case IMDbHelper.get_episodes(tvshow_code, season) do
+      %{
+        "Title" => title,
+        "Season" => season,
+        "totalSeasons" => total_seasons,
+        "Episodes" => episodes
+      } ->
+        tvshow_episodes = %{
+          title: title,
+          season: season,
+          total_seasons: total_seasons,
+          episodes: episodes
+        }
+
+        {:ok, tvshow_episodes}
+
+      res ->
+        {:error, res}
     end
   end
 end

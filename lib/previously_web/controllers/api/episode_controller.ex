@@ -4,6 +4,7 @@ defmodule PreviouslyWeb.API.EpisodeController do
   alias Previously.Episodes
 
   action_fallback PreviouslyWeb.FallbackController
+
   def index(conn, %{"tv_show_id" => tvshow_id}) when is_binary(tvshow_id) do
     episodes =
       conn
@@ -20,6 +21,15 @@ defmodule PreviouslyWeb.API.EpisodeController do
       |> Episodes.get_episode!(tvshow_id, id)
 
     render(conn, "show.json", episode: episode)
+  end
+
+  def get_marked_by_tvshow_code(conn, %{"tvshow_code" => tvshow_code}) do
+    episodes =
+      conn
+      |> get_user_id()
+      |> Episodes.get_marked_by_tvshow_code(tvshow_code)
+
+    render(conn, "index.json", episodes: episodes)
   end
 
   def mark_episode(conn, %{"episode_code" => ep_code}) when is_bitstring(ep_code) do
@@ -62,6 +72,23 @@ defmodule PreviouslyWeb.API.EpisodeController do
         :bad_request,
         Jason.encode!(%{errors: %{detail: "episode_code should be string"}})
       )
+
+  def unmark_all_episodes(conn, %{"tvshow_code" => tvshow_code}) do
+    conn
+    |> get_user_id()
+    |> Episodes.unmark_all_episodes(tvshow_code)
+
+    send_resp(conn, :no_content, "")
+  end
+
+  def get_last_seen_episodes(conn, _) do
+    result =
+      conn
+      |> get_user_id()
+      |> Episodes.get_last_episodes()
+
+    send_resp(conn, :ok, Jason.encode!(result))
+  end
 
   defp get_user_id(conn), do: conn.assigns[:current_user].id
 end

@@ -31,6 +31,21 @@ defmodule PreviouslyWeb.API.TVShowController do
         |> put_resp_content_type("application/json")
         |> send_resp(:ok, Jason.encode!(response))
 
+      {:error, "Series not found!"} ->
+        send_resp(conn, 404, '')
+
+      {:error, err} ->
+        send_resp(conn, 500, Jason.encode!(%{"error" => err}))
+    end
+  end
+
+  def get_tvshow_episodes(conn, %{"tvshow_code" => tvshow_code, "season" => season}) do
+    case IMDbService.get_episodes(tvshow_code, season) do
+      {:ok, tvshow_episodes} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(:ok, Jason.encode!(tvshow_episodes))
+
       {:error, err} ->
         send_resp(conn, 500, Jason.encode!(%{"error" => err}))
     end

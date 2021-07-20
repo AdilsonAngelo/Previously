@@ -1,6 +1,7 @@
 defmodule Previously.IMDb.IMDbHelper do
   @base_url "http://omdbapi.com/"
-  @api_key Application.get_env(:omdb, :api_key)
+  # @api_key Application.get_env(:omdb, :api_key)
+  @api_key "d78e007e"
 
   def search(%{"s" => _} = params) do
     params

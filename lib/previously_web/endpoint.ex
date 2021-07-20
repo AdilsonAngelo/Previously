@@ -48,5 +48,11 @@ defmodule PreviouslyWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
+
+  plug Corsica,
+    origins: ["http://localhost:3000"],
+    allow_headers: ["accept", "content-type", "authorization"],
+    allow_credentials: true
+
   plug PreviouslyWeb.Router
 end

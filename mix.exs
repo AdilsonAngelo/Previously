@@ -20,7 +20,7 @@ defmodule Previously.MixProject do
   def application do
     [
       mod: {Previously.Application, []},
-      extra_applications: [:logger, :runtime_tools, :httpoison]
+      extra_applications: [:logger, :runtime_tools, :httpoison, :corsica]
     ]
   end
 
@@ -45,7 +45,8 @@ defmodule Previously.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:pow, "~> 1.0.24"},
       {:httpoison, "~> 1.7"},
-      {:mock, "~> 0.3.0", only: :test}
+      {:mock, "~> 0.3.0", only: :test},
+      {:corsica, "~> 1.0"}
     ]
   end
 
